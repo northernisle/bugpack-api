@@ -1,0 +1,15 @@
+version: '3.7'
+services:
+  app:
+    container_name: bugpack-api
+    restart: always
+    build: .
+    ports:
+      - '3001:3001'
+    links:
+      - mongo
+  mongo:
+    container_name: bugpack-db
+    image: mongo
+    ports:
+      - '27017:27017'

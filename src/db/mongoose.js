@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 
-mongoose.connect(process.env.CONNECTION_STRING, {
+const { DB_IP, DB_PORT, DB_NAME } = process.env;
+
+mongoose.connect(`${DB_IP}:${DB_PORT}/${DB_NAME}`, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true

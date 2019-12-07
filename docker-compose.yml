@@ -5,7 +5,7 @@ services:
     restart: always
     build: .
     environment:
-      CONNECTION_STRING: mongodb://mongo:27017/bugpack-api
+      DB_IP: ${DB_CONTAINER_IP}
     ports:
       - '3001:3001'
     links:

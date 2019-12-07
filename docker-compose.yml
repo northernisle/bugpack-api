@@ -4,6 +4,8 @@ services:
     container_name: bugpack-api
     restart: always
     build: .
+    environment:
+      CONNECTION_STRING: mongodb://mongo:27017/bugpack-api
     ports:
       - '3001:3001'
     links:

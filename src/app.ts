@@ -24,17 +24,20 @@ app.use((err: RequestError, req: Request, res: Response, next: NextFunction) => 
 });
 
 app.use((err: RequestError, req: Request, res: Response, next: NextFunction) => {
-  res.status(err.status || 500);
+  const status = err.status || 500;
+  res.status(status);
 
-  if (!err.message) {
+  let message = err.message;
+
+  if (status === 500) {
+    message = 'Something went wrong 🤷'
+  }
+
+  if (!message) {
     return res.send();
   }
 
-  return res.json({
-    errors: {
-      message: err.message
-    }
-  });
+  return res.json({ errors: { message } });
 });
 
 export default app;

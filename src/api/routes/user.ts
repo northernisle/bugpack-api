@@ -12,6 +12,16 @@ router.get('/users/me', auth, async (req, res, next) => {
   }
 });
 
+router.post('/users/emailOccupied', async (req, res, next) => {
+  try {
+    const result = await userService.emailOccupied(req.body.email);
+
+    res.send(result);
+  } catch (e) {
+    next(e);
+  }
+});
+
 router.post('/users/login', async (req, res, next) => {
   try {
     const { user, token } = await userService.signIn(req.body);

@@ -52,5 +52,13 @@ export default {
     } catch (e) {
       throw new RequestError(500);
     }
+  },
+  emailOccupied: async (email: string): Promise<boolean> => {
+    try {
+      const result = await User.findOne({ email }, 'email');
+      return result != null && result.email != null;
+    } catch (e) {
+      throw new RequestError(500);
+    }
   }
 }

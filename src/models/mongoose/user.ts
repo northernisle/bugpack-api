@@ -39,7 +39,6 @@ User.methods.toJSON = function () {
   const userObject = this.toObject();
 
   delete userObject.password;
-  delete userObject.salt;
   delete userObject.tokens;
   delete userObject.__v;
   delete userObject.createdAt;

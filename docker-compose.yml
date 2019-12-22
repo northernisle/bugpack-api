@@ -7,11 +7,11 @@ services:
     environment:
       DB_IP: ${DB_CONTAINER_IP}
     ports:
-      - '3001:3001'
+      - '${PORT}:${PORT}'
     links:
       - mongo
   mongo:
     container_name: bugpack-db
     image: mongo
     ports:
-      - '27017:27017'
+      - '${DB_PORT}:${DB_PORT}'

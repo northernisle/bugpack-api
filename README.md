@@ -1,6 +1,6 @@
 # Bugpack API
 
-The back-end part of the Bugpack project. Written on TypeScript with Express and MongoDB.
+The back-end part of the Bugpack project. Written in TypeScript with Express and MongoDB.
 
 ### Prerequisites
 [*Node.js@^13.3.0 with npm@^6.13.1*](https://nodejs.org/en/download/) and [*Docker@^19.03.5*](https://www.docker.com/)
@@ -22,7 +22,7 @@ The example values should be sufficient to get the application up and running.
 
 Make sure that:
 1. The `PORT` that you're running from is available.
-2. The MongoDB docker container is running.
+2. The database docker container is running.
 
 #### With NPM
 1. `npm install`

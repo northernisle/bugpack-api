@@ -1,7 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import registerRoutes from './api';
-import './loaders';
 import { RequestError } from './models/requestError';
 
 const app = express();
@@ -24,7 +23,7 @@ app.use((err: RequestError, req: Request, res: Response, next: NextFunction) => 
 });
 
 app.use((err: RequestError, req: Request, res: Response, next: NextFunction) => {
-  const status = err.status || 500;
+  const status = err.status ?? 500;
   res.status(status);
 
   let message = err.message;

@@ -1,1 +1,3 @@
-import './mongoose';
+import connectDB from './mongoose';
+
+export default connectDB;

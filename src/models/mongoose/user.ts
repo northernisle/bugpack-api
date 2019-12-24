@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
 import bcrypt from 'bcryptjs';
-import { IUser } from '../../interfaces/IUser';
+import IUser from '../../interfaces/IUser';
 
 const User = new mongoose.Schema({
   name: {
@@ -48,7 +48,7 @@ User.methods.toJSON = function () {
 }
 
 User.pre('save', async function (next) {
-  const user = <IUser & mongoose.Document>this;
+  const user = <IUser>this;
 
   if (user.isModified('password')) {
     user.password = await bcrypt.hash(user.password, 8);
@@ -57,4 +57,4 @@ User.pre('save', async function (next) {
   next();
 });
 
-export default mongoose.model<mongoose.Document & IUser>('User', User);
+export default mongoose.model<IUser>('User', User);

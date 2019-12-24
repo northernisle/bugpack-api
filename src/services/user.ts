@@ -1,12 +1,12 @@
 import { Document, Error } from 'mongoose';
 import bcrypt from 'bcryptjs';
-import { IUserRegisterDTO, IUser } from "../interfaces/IUser";
 import User from '../models/mongoose/user';
 import { RequestError } from "../models/requestError";
 import jwt from './jwt';
+import { IUserRegister, IUser, IUserLogin } from '../interfaces';
 
 export default {
-  register: async (userDTO: IUserRegisterDTO): Promise<{ user: IUser, token: string }> => {
+  register: async (userDTO: IUserRegister): Promise<{ user: IUser, token: string }> => {
     try {
       const user = new User(userDTO);
       await user.save();
@@ -21,7 +21,7 @@ export default {
       throw new RequestError(400, e);
     }
   },
-  signIn: async (userDTO: IUser & Document) => {
+  signIn: async (userDTO: IUserLogin) => {
     try {
       const user = await User.findOne({ email: userDTO.email });
 
@@ -35,7 +35,8 @@ export default {
         throw new Error('Unable to login');
       }
 
-      const token = await jwt.sign({ _id: user._id });
+      const expiresIn = userDTO.rememberMe ? '30d' : '1d';
+      const token = await jwt.sign({ _id: user._id }, { expiresIn });
 
       user.tokens = user.tokens.concat({ token });
       await user.save();
@@ -45,7 +46,7 @@ export default {
       throw new RequestError(400, e);
     }
   },
-  signOut: async (userDTO: IUser & Document, token: string): Promise<void> => {
+  signOut: async (userDTO: IUser, token: string): Promise<void> => {
     try {
       userDTO.tokens = userDTO.tokens.filter(userToken => userToken.token !== token);
       await userDTO.save();

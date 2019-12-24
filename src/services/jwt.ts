@@ -4,7 +4,7 @@ const secret: string = <string>process.env.JWT_SECRET;
 
 export default {
   sign: (payload: object, options?: object): Promise<string> => new Promise<string>((resolve, reject) => {
-    jwt.sign(payload, secret, options ?? { expiresIn: '30d' }, (err, token) => {
+    jwt.sign(payload, secret, options ?? { expiresIn: '1d' }, (err, token) => {
       if (err) {
         return reject(err);
       }

@@ -1,4 +1,4 @@
-import { Document, Error } from 'mongoose';
+import { Error } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import User from '../models/mongoose/user';
 import { RequestError } from "../models/requestError";

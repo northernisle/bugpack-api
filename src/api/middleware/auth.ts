@@ -5,9 +5,9 @@ import jwt from '../../services/jwt';
 export default async (req: Request, res: Response, next: NextFunction) => {
   try {
     const token = <string>req.header('Authorization')!.replace('Bearer ', '');
-    const decodedData = await jwt.verify<{ _id: string}>(token);
+    const { data } = await jwt.verify<{ _id: string }>(token);
 
-    const user = await User.findOne({ _id: decodedData._id, 'tokens.token': token });
+    const user = await User.findOne({ _id: data._id, 'tokens.token': token });
 
     if (!user) {
       throw new Error();

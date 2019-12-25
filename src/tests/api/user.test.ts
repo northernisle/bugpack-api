@@ -3,6 +3,7 @@ import app from '../../app';
 import User from '../../models/mongoose/user';
 import connectDB from '../../loaders';
 import { initDatabase, dbUserId, dbUser } from '../fixtures/db';
+import jwt from '../../services/jwt';
 
 beforeAll(async () => await connectDB(<string>process.env.DB_TEST_NAME));
 
@@ -45,10 +46,27 @@ test('Should sign in existing user', async () => {
     })
     .expect(200);
 
-  const user = await User.findById(dbUserId);
+  let user = await User.findById(dbUserId);
   expect(user).not.toBeNull();
 
-  expect(res.body.token).toBe(user?.tokens[1].token);
+  const dbToken = user?.tokens[1].token;
+  expect(res.body.token).toBe(dbToken);
+
+  let { exp } = await jwt.verify(<string>dbToken);
+  expect(new Date(exp * 1000).getDate() - new Date().getDate() === 1);
+
+  await request(app)
+    .post('/users/login')
+    .send({
+      email: dbUser.email,
+      password: dbUser.password,
+      rememberMe: true
+    })
+    .expect(200);
+
+  user = await User.findById(dbUserId);
+  ({ exp } = await jwt.verify(<string>user?.tokens[2].token));
+  expect(new Date(exp * 1000).getDate() - new Date().getDate() === 30);
 });
 
 test('Should NOT sign in wrong credentials', async () => {

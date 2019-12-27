@@ -6,7 +6,7 @@ const router = Router();
 
 router.get('/users/me', auth, async (req, res, next) => {
   try {
-    res.send(req.user);
+    res.send({ data: req.user, token: req.tokenUpdated ? req.token : null });
   } catch (e) {
     next(e);
   }

@@ -12,7 +12,7 @@ const dbUser: IUser = {
   tokens: [{
     token: jwt.sign({
       _id: dbUserId
-    }, <string>process.env.JWT_SECRET)
+    }, <string>process.env.JWT_SECRET, { expiresIn: '15min' })
   }]
 };
 

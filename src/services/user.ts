@@ -35,8 +35,12 @@ export default {
         throw new Error('Unable to login');
       }
 
-      const expiresIn = userDTO.rememberMe ? '30d' : '1d';
-      const token = await jwt.sign({ _id: user._id }, { expiresIn });
+      const token = await jwt.sign(
+        {
+          _id: user._id,
+          rememberMe: userDTO.rememberMe
+        }
+      );
 
       user.tokens = user.tokens.concat({ token });
       await user.save();

@@ -6,6 +6,7 @@ declare global {
     interface Request {
       user: IUser;
       token: string;
+      tokenUpdated: boolean;
     }
   }
 }

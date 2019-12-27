@@ -51,22 +51,6 @@ test('Should sign in existing user', async () => {
 
   const dbToken = user?.tokens[1].token;
   expect(res.body.token).toBe(dbToken);
-
-  let { exp } = await jwt.verify(<string>dbToken);
-  expect(new Date(exp * 1000).getDate() - new Date().getDate() === 1);
-
-  await request(app)
-    .post('/users/login')
-    .send({
-      email: dbUser.email,
-      password: dbUser.password,
-      rememberMe: true
-    })
-    .expect(200);
-
-  user = await User.findById(dbUserId);
-  ({ exp } = await jwt.verify(<string>user?.tokens[2].token));
-  expect(new Date(exp * 1000).getDate() - new Date().getDate() === 30);
 });
 
 test('Should NOT sign in wrong credentials', async () => {
@@ -102,9 +86,12 @@ test('Should return the data for an authenticated user', async () => {
     .expect(200);
 
   expect(res.body).toMatchObject({
-    _id: dbUser._id.toHexString(),
-    name: dbUser.name,
-    email: dbUser.email,
+    data: {
+      _id: dbUser._id.toHexString(),
+      name: dbUser.name,
+      email: dbUser.email
+    },
+    token: null
   });
 });
 

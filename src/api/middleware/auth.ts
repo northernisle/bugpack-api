@@ -10,7 +10,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 
     if (expired) {
       const expiryPeriod = data.rememberMe ? 7 : 1;
-      if (daysBetween(new Date(), exp) >= expiryPeriod) { // after a week the user has to sign in again
+      if (daysBetween(new Date(), exp) >= expiryPeriod) { // inactivity for longer than the expiry period
         throw new Error();
       }
     }
@@ -22,7 +22,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     }
 
     if (expired) {
-      const index = user.tokens.indexOf({ token });
+      const index = user.tokens.findIndex(dbToken => dbToken.token === token);
       token = await jwt.sign(data);
       user.tokens[index].token = token;
       await user.save();

@@ -37,7 +37,7 @@ Make sure that:
 | Command               | Description                                       |
 | --------------------- | ------------------------------------------------- |
 | `npm start`           | starts the application from the `dist` folder     |
-| `npm run dev`         | start the application in watch mode with nodemon  |
+| `npm run dev`         | starts the application in watch mode with nodemon  |
 | `npm test`            | runs the test suites with Jest                    |
 | `npm run build-start` | combines `npm run build` and `npm start`          |
 | `npm run build`       | compiles TS to JS in a `dist` folder              |
